@@ -1,11 +1,9 @@
-package de.lathspell.matasano_challenge.set1.challenge1;
+package de.lathspell.matasano_challenge.set1.challenge2;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-
-import de.lathspell.matasano_challenge.set1.challenge2.FixedXor;
 
 import static de.lathspell.matasano_challenge.Utils.bytes2hex;
 import static de.lathspell.matasano_challenge.Utils.hex2bytes;

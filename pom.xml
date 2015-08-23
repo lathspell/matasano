@@ -28,15 +28,25 @@
 
     <dependencies>
         <dependency>
+            <!-- Tests -->
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
         <dependency>
+            <!-- JSON (print data structures for debugging) -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Utils (Use base64 methods and similar to very my own ones) -->
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.10</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
