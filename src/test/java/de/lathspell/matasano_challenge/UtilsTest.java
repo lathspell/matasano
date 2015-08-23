@@ -20,6 +20,12 @@ public class UtilsTest {
         String actual = Utils.bytes2hex(new byte[]{(byte) 0x20, (byte) 0x00, (byte) 0x42, (byte) 0xFF});
         assertEquals(expected, actual);
 
-        assertEquals("96", Utils.bytes2hex(new byte[] { (byte)0x96 }));
+        assertEquals("96", Utils.bytes2hex(new byte[]{(byte) 0x96}));
+    }
+
+    @Test
+    public void testScoreEnglishText() {
+        assertEquals(5, Utils.scoreEnglishText("This is an English text!".getBytes()));
+        assertEquals(0, Utils.scoreEnglishText(new byte[]{(byte) 0x00, (byte) 0x40, (byte) 0xff}));
     }
 }

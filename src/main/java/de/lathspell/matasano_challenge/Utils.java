@@ -1,6 +1,69 @@
 package de.lathspell.matasano_challenge;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Utils {
+
+    private static final Logger log = LoggerFactory.getLogger(Utils.class);
+
+    public static int scoreEnglishText(byte[] bytes) {
+        boolean noNonUsAscii = true;
+        boolean hasSpace = false;
+        int[] charmap = new int[256];
+
+        for (byte b : bytes) {
+            if (b < 0x20 || b > 0x7E) {
+                noNonUsAscii = false;
+            }
+            if (b == ' ') {
+                hasSpace = true;
+            }
+            // log.info("adding: " + b);
+            charmap[b & 0xFF]++;
+        }
+
+        // Get top5 characters
+        List<Integer[]> sortedCharmap = new ArrayList<>();
+        for (int i = 0; i < charmap.length; i++) {
+            sortedCharmap.add(new Integer[]{i, charmap[i]});
+        }
+        Collections.sort(sortedCharmap, (Integer[] o1, Integer[] o2) -> Integer.compare(o2[1], o1[1]));
+        // log.debug("sortedCharmap: " + sortedCharmap);
+        List<Integer[]> topCharmap = sortedCharmap.subList(0, 10);
+        // log.debug("topCharmap: " + topCharmap);
+
+        int score = 0;
+        if (noNonUsAscii) {
+            score++;
+        }
+        if (hasSpace) {
+            score+=2;
+        }
+        // log.debug("scores for noNonUsAscii={} hasSpace={}", noNonUsAscii, hasSpace);
+
+        for (int c : Arrays.asList('e', 'E', 'a', 'A', 'i', 'I')) {
+            // log.debug("Scanning for: " + (char) c);
+            for (Integer[] entry : topCharmap) {
+                if (entry[1] > 0) {
+                    // log.debug("  Comparing with: " + (char) (entry[0].byteValue()) + ": " + entry[1]);
+                    if (entry[0] == c) {
+                        score++;
+                        // log.debug("    score!");
+                        break;
+                    }
+                }
+            }
+        }
+        // log.debug("score after topCharmap: " + score);
+
+        return score;
+    }
 
     public static byte[] hex2bytes(String plaintextHex) {
         if (plaintextHex == null) {

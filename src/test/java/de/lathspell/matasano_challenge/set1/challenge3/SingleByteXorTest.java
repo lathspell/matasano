@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import de.lathspell.matasano_challenge.Utils;
 
 public class SingleByteXorTest {
+
+    public static final Logger log = LoggerFactory.getLogger(SingleByteXorTest.class);
 
     @Test
     public void testSingleByteXor() {
@@ -30,16 +32,17 @@ public class SingleByteXorTest {
         for (int i = 0; i <= 255; i++) {
             byte[] plaintextBytes = SingleByteXor.xor(cipherbytes, (byte) i);
             String plaintext = new String(plaintextBytes);
-            int numE = countChar(plaintextBytes, 'e');
+            int numE = Utils.scoreEnglishText(plaintextBytes);
             winners.add(new Result(i, numE, plaintextBytes, numE > 0 ? plaintext : ""));
         }
 
-        // Found 0x88 to be the right key after manually reviewing the results
-        assertEquals("Cooking MC's like a pound of bacon", winners.get(88).plaintext);
-
         // Order by number of occurances of the letter 'e' and show all candidates
-        Collections.sort(winners, (Result o1, Result o2) -> Integer.compare(o1.numE, o2.numE));
-        System.err.println(new ObjectMapper().enable(INDENT_OUTPUT).writeValueAsString(winners));
+        Collections.sort(winners, (Result o1, Result o2) -> Integer.compare(o2.numE, o1.numE));
+        // log.debug("Results: " + new ObjectMapper().enable(INDENT_OUTPUT).writeValueAsString(winners));
+
+        assertEquals(88, winners.get(0).key);
+        assertEquals("Cooking MC's like a pound of bacon", winners.get(0).plaintext);
+
     }
 
     private class Result {
