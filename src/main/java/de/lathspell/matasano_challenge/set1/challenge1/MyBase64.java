@@ -1,8 +1,19 @@
 package de.lathspell.matasano_challenge.set1.challenge1;
 
+import java.util.Arrays;
+
+/**
+ * Implementation of the Base64 algorithm (RFC 4648).
+ *
+ * (Don't use this code! Use Apache Commons Codec!)
+ *
+ */
 public class MyBase64 {
 
-    public static final char[] BASE64_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+    /** The '=' is not part of the charset but decoding is easier if it's contained in the char array! */
+    public static final String BASE64_CHARSET_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+    public static final char[] BASE64_CHARSET = BASE64_CHARSET_STRING.toCharArray();
 
     /**
      * Encodes binary bytes to base64 ASCII.
@@ -40,5 +51,29 @@ public class MyBase64 {
         }
 
         return sb.toString();
+    }
+
+    public static byte[] decodeBase64(String encodedString) {
+        byte[] encoded = encodedString.getBytes();
+        byte[] decoded = new byte[encoded.length / 4 * 3];
+        int d = 0;
+        for (int i = 0; i <= encoded.length - 4; i += 4) {
+            int e1 = BASE64_CHARSET_STRING.indexOf(encoded[i + 0]);
+            int e2 = BASE64_CHARSET_STRING.indexOf(encoded[i + 1]);
+            int e3 = BASE64_CHARSET_STRING.indexOf(encoded[i + 2]);
+            int e4 = BASE64_CHARSET_STRING.indexOf(encoded[i + 3]);
+            decoded[d + 0] = (byte) ((e1 << 2) + ((e2 >> 4) & 0x0F));
+            decoded[d + 1] = (byte) ((e2 << 4) + ((e3 >> 2) & 0x0F));
+            decoded[d + 2] = (byte) ((e3 << 6) + (e4 & 0x3F));
+            d += 3;
+        }
+
+        if (encoded[encoded.length - 2] == '=') {
+            return Arrays.copyOf(decoded, d - 2);
+        } else if (encoded[encoded.length - 1] == '=') {
+            return Arrays.copyOf(decoded, d - 1);
+        } else {
+            return decoded;
+        }
     }
 }
