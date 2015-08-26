@@ -25,7 +25,7 @@ public class UtilsTest {
 
     @Test
     public void testScoreEnglishText() {
-        assertEquals(5, Utils.scoreEnglishText("This is an English text!".getBytes()));
+        assertEquals(6, Utils.scoreEnglishText("This is an English text!".getBytes()));
         assertEquals(0, Utils.scoreEnglishText(new byte[]{(byte) 0x00, (byte) 0x40, (byte) 0xff}));
     }
 }

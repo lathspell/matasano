@@ -16,7 +16,7 @@ public class Utils {
      * Guess if the input is an English text.
      *
      * More ideas on https://de.wikipedia.org/wiki/ETAOIN_SHRDLU
-     * 
+     *
      * @param bytes
      * @return The higher the score, the more likely it was English.
      */
@@ -51,7 +51,7 @@ public class Utils {
             score++;
         }
         if (hasSpace) {
-            score+=2;
+            score += 2;
         }
         // log.debug("scores for noNonUsAscii={} hasSpace={}", noNonUsAscii, hasSpace);
 
@@ -71,6 +71,26 @@ public class Utils {
         // log.debug("score after topCharmap: " + score);
 
         return score;
+    }
+
+    public static int countPrintableAsciiCharacters(byte[] bytes, boolean inverse) {
+        int c = 0;
+        for (byte b : bytes) {
+            if (inverse ^ ((b >= ' ' && b <= '~') || b == '\n' || b == '\r')) {
+                c++;
+            }
+        }
+        return c;
+    }
+
+    public static int countSpaces(byte[] bytes) {
+        int c = 0;
+        for (byte b : bytes) {
+            if (b == ' ') {
+                c++;
+            }
+        }
+        return c;
     }
 
     public static byte[] hex2bytes(String plaintextHex) {
