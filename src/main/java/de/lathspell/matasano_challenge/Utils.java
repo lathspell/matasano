@@ -12,6 +12,14 @@ public class Utils {
 
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
+    /**
+     * Guess if the input is an English text.
+     *
+     * More ideas on https://de.wikipedia.org/wiki/ETAOIN_SHRDLU
+     * 
+     * @param bytes
+     * @return The higher the score, the more likely it was English.
+     */
     public static int scoreEnglishText(byte[] bytes) {
         boolean noNonUsAscii = true;
         boolean hasSpace = false;
