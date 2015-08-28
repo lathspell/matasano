@@ -119,11 +119,11 @@ public class Utils {
             // beware of Java's lack of unsigned byte and the
             // implicit expansion from signed byte to signed int!
             int hi = (b & 0xff) >>> 4;
-            char c1 = (char) (hi <= 9 ? ('0' + hi) : ('A' + hi - 10));
+            char c1 = (char) (hi <= 9 ? ('0' + hi) : ('a' + hi - 10));
             sb.append(c1);
 
             int lo = (b & 0x0F);
-            char c2 = (char) (lo <= 9 ? ('0' + lo) : ('A' + lo - 10));
+            char c2 = (char) (lo <= 9 ? ('0' + lo) : ('a' + lo - 10));
             sb.append(c2);
         }
 

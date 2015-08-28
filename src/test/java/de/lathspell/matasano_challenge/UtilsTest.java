@@ -10,13 +10,13 @@ public class UtilsTest {
     @Test
     public void testHex2Bytes() {
         byte[] expected = new byte[]{(byte) 0x20, (byte) 0x00, (byte) 0x42, (byte) 0xFF};
-        byte[] actual = Utils.hex2bytes("200042FF");
+        byte[] actual = Utils.hex2bytes("200042ff");
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void testBytes2Hex() {
-        String expected = "200042FF";
+        String expected = "200042ff";
         String actual = Utils.bytes2hex(new byte[]{(byte) 0x20, (byte) 0x00, (byte) 0x42, (byte) 0xFF});
         assertEquals(expected, actual);
 
